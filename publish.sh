@@ -14,7 +14,7 @@ rev=$(git rev-parse --short HEAD)
 
 git init
 git config user.name "Dana Gutride"  #get from commit 
-git config user.email "$COMMIT_AUTHOR_EMAIL" # get from original commit
+git config user.email "dgutride@redhat.com" # get from original commit
 
 git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 git fetch upstream

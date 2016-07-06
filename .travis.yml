@@ -8,5 +8,4 @@ script:
 - bower install
 - grunt
 after_success:
-- cd ..
-- ./deploy.sh
+- ./publish.sh

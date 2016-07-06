@@ -30,7 +30,7 @@
  <file name="index.html">
    <div ng-controller="DrawerCtrl" class="row example-container">
      <div class="col-md-12 pre-demo-text">
-       <label>Click the notifications indicator to show the Notification Drawer: </label>
+       <label>Click the notification indicator to show the Notification Drawer: </label>
      </div>
      <div class="navbar-pf-vertical">
        <nav class="collapse navbar-collapse">

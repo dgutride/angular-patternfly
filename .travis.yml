@@ -16,4 +16,4 @@ deploy:
   on:
     repo: dgutride/angular-patternfly
     branch: build_dist_files
-    tags: true
+    tags: true 

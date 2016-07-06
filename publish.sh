@@ -20,6 +20,8 @@ git config user.email "dgutride@redhat.com" # get from original commit
 
 git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 git fetch upstream
+git pull upstream
+
 #git reset upstream/gh-pages
 
 #echo "rustbyexample.com" > CNAME

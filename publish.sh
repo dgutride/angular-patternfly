@@ -12,18 +12,18 @@ rev=$(git rev-parse --short HEAD)
 
 #cd stage/_book
 
-git init
-git config user.name "Dana Gutride"  #get from commit 
-git config user.email "dgutride@redhat.com" # get from original commit
+#git init
+git config user.name "Build"  #get from commit 
+git config user.email "pf-build@redhat.com" # get from original commit
+#git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 
-git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 #git fetch upstream
 #git reset upstream/build_target
 #git pull upstream
 
-TARGET_BRANCH="build_target"
-#git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+#TARGET_BRANCH="build_target"
+#git checkout build_target || git checkout --orphan build_target
 
 git add -A .
 git commit -m "rebuild pages at ${rev}"
-git push upstream TARGET_BRANCH --force
+git push origin $TRAVIS_BRANCH:build_test --force

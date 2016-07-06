@@ -7,13 +7,6 @@ script:
 - npm install
 - bower install
 - grunt
-deploy:
-  provider: releases
-  api_key:
-    secure: RDQkM3utfVd4gEJzE3I3B/h4Qn/PVzc4MtcaefEbbILYGIxTnWhKvVLwXEKVF/4QP//nimdwNB/qERKtqy/CRjX/2jofthmDLPd0XlrsPOekdPXLDquY3GDBK3a+Mk0cJff1msOeFv3tev4n2EsOMEHiYTP4dt1wJVKUizGqQMY=
-  file_glob: true
-  file: dist/*
-  on:
-    repo: dgutride/angular-patternfly
-    branch: build_dist_files
-    tags: true 
+after_success:
+- cd ..
+- ./deploy.sh

@@ -14,20 +14,16 @@ rev=$(git rev-parse --short HEAD)
 
 git init
 git config user.name "Dana Gutride"  #get from commit 
-git config user.email "dgutride@redhat.com" # get from original commit
-
-#git add .
+git config user.email "$COMMIT_AUTHOR_EMAIL" # get from original commit
 
 git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 git fetch upstream
-git pull upstream
+git reset upstream/build_target
+#git pull upstream
 
-#git reset upstream/gh-pages
+TARGET_BRANCH="build_target"
+#git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 
-#echo "rustbyexample.com" > CNAME
-
-#touch .
-
-#git add -A .
+git add -A .
 git commit -m "rebuild pages at ${rev}"
-git push origin test_branch
+git push upstream TARGET_BRANCH

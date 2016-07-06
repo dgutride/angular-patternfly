@@ -15,7 +15,7 @@ rev=$(git rev-parse --short HEAD)
 #git init
 git config user.name "Build"  #get from commit 
 git config user.email "pf-build@redhat.com" # get from original commit
-#git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
+# git remote add upstream "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git"
 
 #git fetch upstream
 #git reset upstream/build_target
@@ -26,4 +26,4 @@ git config user.email "pf-build@redhat.com" # get from original commit
 
 git add -A .
 git commit -m "rebuild pages at ${rev}"
-git push origin $TRAVIS_BRANCH:build_test --force
+git push --repo "https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git" $TRAVIS_BRANCH:build_test --force

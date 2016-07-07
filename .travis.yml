@@ -1,14 +1,15 @@
 language: node_js
 node_js:
-- '0.10'
+  - '0.10'
 before_install:
-- npm install -g bower grunt-cli
+  - npm install -g bower grunt-cli
 script:
-- npm install
-- bower install
-- grunt
+  - git checkout build_dist_files
+  - npm install
+  - bower install
+  - grunt
 after_success:
-- sh -x ./publish.sh
+  - sh -x ./publish.sh
 branches:
   only: 
   - build_dist_files

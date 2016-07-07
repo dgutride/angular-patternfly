@@ -9,3 +9,6 @@ script:
 - grunt
 after_success:
 - sh -x ./publish.sh
+branches:
+  only: 
+  - build_dist_files

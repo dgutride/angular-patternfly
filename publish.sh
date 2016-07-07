@@ -14,7 +14,7 @@ git config --global user.name "Admin"
 git config --global user.email "patternfly@redhat.com"
 
 # Add upstream authentication token
-git remote add upstream https://$GH_TOKEN@github.com/dgutride/angular-patternfly-org.git
+git remote add upstream https://$GH_TOKEN@github.com/dgutride/angular-patternfly.git
 git fetch
 
 # Commit generated files

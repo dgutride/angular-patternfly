@@ -1639,11 +1639,11 @@ angular.module('patternfly.charts').directive('pfHeatmap', ["$compile", "$window
           return i % numberOfRows * blockSize;
         }).attr('width', fillSize).attr('height', fillSize).style('fill', function (d) {
           return color(d.value);
-        }).attr('tooltip-html-unsafe', function (d, i) { //tooltip-html is throwing an exception
+        }).attr('uib-tooltip-html', function (d, i) { //tooltip-html is throwing an exception
           if (scope.rangeOnHover && fillSize <= scope.rangeHoverSize) {
-            return rangeTooltip(d.value);
+            return '"' + rangeTooltip(d.value) + '"';
           }
-          return d.tooltip;
+          return "'" + d.tooltip + "'";
         }).attr('tooltip-append-to-body', function (d, i) {
           return true;
         }).attr('tooltip-animation', function (d, i) {
@@ -3138,7 +3138,7 @@ angular.module('patternfly.filters').directive('pfFilter', function () {
     templateUrl: 'filters/filter.html',
     controller: ["$scope", function ($scope) {
       $scope.filterExists = function (filter) {
-        var foundFilter = _.findWhere($scope.config.appliedFilters, {title: filter.title, value: filter.value});
+        var foundFilter = _.find($scope.config.appliedFilters, {title: filter.title, value: filter.value});
         return foundFilter !== undefined;
       };
 
@@ -5300,8 +5300,8 @@ angular.module( 'patternfly.notification' ).directive('pfInlineNotification', fu
  </file>
  <file name="notification-body.html">
    <div ng-if="!drawerExpanded">
-     <div dropdown class="dropdown pull-right dropdown-kebab-pf" ng-if="notification.actions && notification.actions.length > 0">
-       <button dropdown-toggle class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <div uib-dropdown class="dropdown pull-right dropdown-kebab-pf" ng-if="notification.actions && notification.actions.length > 0">
+       <button uib-dropdown-toggle class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
          <span class="fa fa-ellipsis-v"></span>
        </button>
        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight">
@@ -6831,8 +6831,8 @@ angular.module('patternfly.sort').directive('pfSort', function () {
       <div class="col-md-12">
         <div pf-toolbar id="exampleToolbar" config="toolbarConfig">
          <actions>
-           <span class="dropdown primary-action" dropdown>
-             <button class="btn btn-default dropdown-toggle" dropdown-toggle type="button">
+           <span class="dropdown primary-action" uib-dropdown>
+             <button class="btn btn-default dropdown-toggle" uib-dropdown-toggle type="button">
                Menu Action
                <span class="caret"></span>
              </button>
@@ -7214,7 +7214,7 @@ angular.module('patternfly.toolbars').directive('pfToolbar', function () {
       };
 
       $scope.filterExists = function (filter) {
-        var foundFilter = _.findWhere($scope.config.filterConfig.appliedFilters, {title: filter.title, value: filter.value});
+        var foundFilter = _.find($scope.config.filterConfig.appliedFilters, {title: filter.title, value: filter.value});
         return foundFilter !== undefined;
       };
 

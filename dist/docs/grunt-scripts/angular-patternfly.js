@@ -8934,7 +8934,7 @@ angular.module('patternfly.views').directive('pfListView', ["$timeout", "$window
   <file name="summary.html">
   <div ng-controller="SummaryController">
     <pf-wizard-substep step-title="Summary" step-id="review-summary" step-priority="0" next-enabled="true" prev-enabled="true" ok-to-nav-away="true" wz-disabled="false" on-show="onShow">
-      <div pf-wizard-review-page shown="pageShown" wizard-data="data"></div>
+      <pf-wizard-review-page shown="pageShown" wizard-data="data"></pf-wizard-review-page>
     </pf-wizard-substep>
   </div>
   </file>
@@ -9066,7 +9066,7 @@ angular.module('patternfly.views').directive('pfListView', ["$timeout", "$window
         if (angular.isUndefined(next)) {
           $scope.data = {};
         } else {
-          $scope.data = next.wizardData;
+          $scope.data = next.$ctrl.wizardData;
         }
       }
     }
@@ -9490,52 +9490,55 @@ angular.module('patternfly.wizard').directive('pfWizard', ["$window", function (
 }]);
 ;/**
  * @ngdoc directive
- * @name patternfly.wizard.directive:pfWizardReviewPage
+ * @name patternfly.wizard.component:pfWizardReviewPage
+ * @restrict E
  *
  * @description
- * Directive for rendering a Wizard Review Page - should only be used within a wizard.
+ * Component for rendering a Wizard Review Page - should only be used within a wizard.
  *
  * @param {boolean} shown Value watched internally by the wizard review page to know when it is visible.
  * @param {object} wizardData  Sets the internal content of the review page to apply wizard data to the review templates.
  *
  */
-angular.module('patternfly.wizard').directive('pfWizardReviewPage', function () {
-  'use strict';
-  return {
-    restrict: 'A',
-    scope: {
-      shown: '=',
-      wizardData: "="
-    },
-    require: '^pfWizard',
-    templateUrl: 'wizard/wizard-review-page.html',
-    controller: ["$scope", function ($scope) {
-      $scope.toggleShowReviewDetails = function (step) {
-        if (step.showReviewDetails === true) {
-          step.showReviewDetails = false;
-        } else {
-          step.showReviewDetails = true;
+angular.module('patternfly.wizard').component('pfWizardReviewPage', {
+  bindings: {
+    shown: '<',
+    wizardData: "<"
+  },
+  require: {
+    wizard: '^pfWizard'
+  },
+  templateUrl: 'wizard/wizard-review-page.html',
+  controller: function () {
+    'use strict';
+    var ctrl = this;
+
+    ctrl.toggleShowReviewDetails = function (step) {
+      if (step.showReviewDetails === true) {
+        step.showReviewDetails = false;
+      } else {
+        step.showReviewDetails = true;
+      }
+    };
+    ctrl.getSubStepNumber = function (step, substep) {
+      return step.getStepDisplayNumber(substep);
+    };
+    ctrl.getReviewSubSteps = function (reviewStep) {
+      return reviewStep.getReviewSteps();
+    };
+    ctrl.reviewSteps = [];
+    ctrl.updateReviewSteps = function () {
+      ctrl.reviewSteps = ctrl.wizard.getReviewSteps();
+    };
+
+    ctrl.$onChanges = function (changesObj) {
+      if (changesObj.shown) {
+        if (changesObj.shown.currentValue) {
+          ctrl.updateReviewSteps();
         }
-      };
-      $scope.getSubStepNumber = function (step, substep) {
-        return step.getStepDisplayNumber(substep);
-      };
-      $scope.getReviewSubSteps = function (reviewStep) {
-        return reviewStep.getReviewSteps();
-      };
-      $scope.reviewSteps = [];
-      $scope.updateReviewSteps = function (wizard) {
-        $scope.reviewSteps = wizard.getReviewSteps();
-      };
-    }],
-    link: function ($scope, $element, $attrs, wizard) {
-      $scope.$watch('shown', function (value) {
-        if (value) {
-          $scope.updateReviewSteps(wizard);
-        }
-      });
-    }
-  };
+      }
+    };
+  }
 });
 ;/**
  * @ngdoc directive
@@ -10243,7 +10246,7 @@ angular.module('patternfly.wizard').component('pfWizardSubstep', {
   'use strict';
 
   $templateCache.put('wizard/wizard-review-page.html',
-    "<div class=wizard-pf-review-page><div class=wizard-pf-review-steps><ul class=list-group><li class=list-group-item ng-repeat=\"reviewStep in reviewSteps track by $index\"><a class=apf-form-collapse ng-class=\"{'collapsed': !reviewStep.showReviewDetails}\" ng-click=toggleShowReviewDetails(reviewStep)>{{reviewStep.stepTitle}}</a><div class=wizard-pf-review-substeps ng-class=\"{'collapse': !reviewStep.showReviewDetails}\"><ul class=list-group ng-if=reviewStep.substeps><li class=list-group-item ng-repeat=\"substep in reviewStep.getReviewSteps()\"><a class=apf-form-collapse ng-class=\"{'collapsed': !substep.showReviewDetails}\" ng-click=toggleShowReviewDetails(substep)><span class=wizard-pf-substep-number>{{getSubStepNumber(reviewStep, substep)}}</span> <span class=wizard-pf-substep-title>{{substep.stepTitle}}</span></a><div class=wizard-pf-review-content ng-class=\"{'collapse': !substep.showReviewDetails}\"><div ng-include=substep.reviewTemplate></div></div></li></ul><div class=wizard-pf-review-content ng-if=reviewStep.reviewTemplate ng-class=\"{'collapse': !reviewStep.showReviewDetails}\"><div ng-include=reviewStep.reviewTemplate></div></div></div></li></ul></div></div>"
+    "<div class=wizard-pf-review-page><div class=wizard-pf-review-steps><ul class=list-group><li class=list-group-item ng-repeat=\"reviewStep in $ctrl.reviewSteps track by $index\"><a class=apf-form-collapse ng-class=\"{'collapsed': !reviewStep.showReviewDetails}\" ng-click=$ctrl.toggleShowReviewDetails(reviewStep)>{{reviewStep.stepTitle}}</a><div class=wizard-pf-review-substeps ng-class=\"{'collapse': !reviewStep.showReviewDetails}\"><ul class=list-group ng-if=reviewStep.substeps><li class=list-group-item ng-repeat=\"substep in reviewStep.getReviewSteps()\"><a class=apf-form-collapse ng-class=\"{'collapsed': !substep.showReviewDetails}\" ng-click=$ctrl.toggleShowReviewDetails(substep)><span class=wizard-pf-substep-number>{{$ctrl.getSubStepNumber(reviewStep, substep)}}</span> <span class=wizard-pf-substep-title>{{substep.stepTitle}}</span></a><div class=wizard-pf-review-content ng-class=\"{'collapse': !substep.showReviewDetails}\"><div ng-include=substep.reviewTemplate></div></div></li></ul><div class=wizard-pf-review-content ng-if=reviewStep.reviewTemplate ng-class=\"{'collapse': !reviewStep.showReviewDetails}\"><div ng-include=reviewStep.reviewTemplate></div></div></div></li></ul></div></div>"
   );
 
 

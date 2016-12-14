@@ -6863,7 +6863,7 @@ angular.module('patternfly.sort').directive('pfSort', function () {
         <label class="events-label">Valid Items: </label>
       </div>
       <div class="col-md-12 list-view-container" ng-if="viewType == 'listView'">
-        <div pf-list-view config="listConfig" items="items">
+        <pf-list-view config="listConfig" items="items">
           <div class="list-view-pf-description">
             <div class="list-group-item-heading">
               {{item.name}}
@@ -6880,7 +6880,7 @@ angular.module('patternfly.sort').directive('pfSort', function () {
               {{item.birthMonth}}
             </div>
           </div>
-        </div>
+        </pf-list-view>
       </div>
       <div class="col-md-12 card-view-container" ng-if="viewType == 'cardView'">
         <pf-card-view config="vm.listConfig" items="items">
@@ -8642,7 +8642,7 @@ angular.module('patternfly.views').component('pfListView', {
           }
         } else {
           if (ctrl.config.selectedItems[0] === item) {
-            if (!scope.config.dblClick) {
+            if (!ctrl.config.dblClick) {
               ctrl.config.selectedItems = [];
               selectionChanged = true;
             }

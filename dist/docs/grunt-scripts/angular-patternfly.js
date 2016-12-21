@@ -5232,10 +5232,11 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
 });
 ;/**
  * @ngdoc directive
- * @name patternfly.notification.directive:pfNotificationDrawer
+ * @name patternfly.notification.component:pfNotificationDrawer
+ * @restrict E
  *
  * @description
- *   Directive for rendering a notification drawer. This provides a common mechanism to handle how the notification
+ *   Component for rendering a notification drawer. This provides a common mechanism to handle how the notification
  *   drawer should look and behave without mandating the look of the notification group heading or notification body.
  *   <br><br>
  *   An array of notification groups must be passed to create each group in the drawer. Each notification
@@ -5279,11 +5280,11 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
      </div>
      <div class="layout-pf-fixed">
        <div class="navbar-pf-vertical">
-         <div pf-notification-drawer drawer-hidden="hideDrawer" drawer-title="Notifications Drawer" allow-expand="true"
+         <pf-notification-drawer drawer-hidden="hideDrawer" drawer-title="Notifications Drawer" allow-expand="true"
               action-button-title="Mark All Read" action-button-callback="actionButtonCB" notification-groups="groups"
               heading-include="heading.html" subheading-include="subheading.html" notification-body-include="notification-body.html"
               notification-footer-include="notification-footer.html" custom-scope="customScope">
-         </div>
+         </pf-notification-drawer>
        </div>
      </div>
      <div class="col-md-12">
@@ -5301,7 +5302,7 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
    {{notificationGroup.subHeading}}
  </file>
  <file name="notification-footer.html">
-   <a class="btn btn-link btn-block" role="button" ng-click="customScope.clearAll(notificationGroup)">
+   <a class="btn btn-link btn-block" role="button" ng-click="$ctrl.customScope.clearAll(notificationGroup)">
      <span class="pficon pficon-close"></span>
      <span> Clear All</span>
    </a>
@@ -5316,15 +5317,15 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
          <li ng-repeat="action in notification.actions"
              role="{{action.isSeparator === true ? 'separator' : 'menuitem'}}"
              ng-class="{'divider': action.isSeparator === true, 'disabled': action.isDisabled === true}">
-           <a ng-if="action.isSeparator !== true" class="secondary-action" title="{{action.title}}" ng-click="customScope.handleAction(notification, action)">
+           <a ng-if="action.isSeparator !== true" class="secondary-action" title="{{action.title}}" ng-click="$ctrl.customScope.handleAction(notification, action)">
              {{action.name}}
            </a>
          </li>
        </ul>
      </div>
-     <span ng-if="notification.status" class="{{'pull-left ' + customScope.getNotficationStatusIconClass(notification)}}" ng-click="customScope.markRead(notification)"></span>
-     <span class="drawer-pf-notification-message" ng-click="customScope.markRead(notification)">{{notification.message}}</span>
-     <div class="drawer-pf-notification-info" ng-click="customScope.markRead(notification)">
+     <span ng-if="notification.status" class="{{'pull-left ' + $ctrl.customScope.getNotficationStatusIconClass(notification)}}" ng-click="$ctrl.customScope.markRead(notification)"></span>
+     <span class="drawer-pf-notification-message" ng-click="$ctrl.customScope.markRead(notification)">{{notification.message}}</span>
+     <div class="drawer-pf-notification-info" ng-click="$ctrl.customScope.markRead(notification)">
        <span class="date">{{notification.timeStamp | date:'MM/dd/yyyy'}}</span>
        <span class="time">{{notification.timeStamp | date:'h:mm:ss a'}}</span>
      </div>
@@ -5332,7 +5333,7 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
    <div ng-if="drawerExpanded" class="container-fluid">
      <div class="row">
        <div class="col-sm-6">
-         <span class="pull-left {{customScope.getNotficationStatusIconClass(notification)}}"></span>
+         <span class="pull-left {{$ctrl.customScope.getNotficationStatusIconClass(notification)}}"></span>
          <span class="drawer-pf-notification-message notification-message"
                tooltip-append-to-body="true" tooltip-popup-delay="500" tooltip-placement="bottom" tooltip="{{notification.message}}">
                {{notification.message}}
@@ -5351,7 +5352,7 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
              <li ng-repeat="action in notification.actions"
                  role="{{action.isSeparator === true ? 'separator' : 'menuitem'}}"
                  ng-class="{'divider': action.isSeparator === true, 'disabled': action.isDisabled === true}">
-               <a ng-if="action.isSeparator !== true" class="secondary-action" title="{{action.title}}" ng-click="customScope.handleAction(notification, action)">
+               <a ng-if="action.isSeparator !== true" class="secondary-action" title="{{action.title}}" ng-click="$ctrl.customScope.handleAction(notification, action)">
                  {{action.name}}
                </a>
              </li>
@@ -5703,36 +5704,52 @@ angular.module( 'patternfly.notification' ).component('pfInlineNotification', {
  </file>
 </example>
 */
-angular.module('patternfly.notification').directive('pfNotificationDrawer', ["$window", "$timeout", function ($window, $timeout) {
-  'use strict';
-  return {
-    restrict: 'A',
-    scope: {
-      drawerHidden: '=?',
-      allowExpand: '=?',
-      drawerExpanded: '=?',
-      drawerTitle: '@',
-      notificationGroups: '=',
-      actionButtonTitle: '@',
-      actionButtonCallback: '=?',
-      titleInclude: '@',
-      headingInclude: '@',
-      subheadingInclude: '@',
-      notificationBodyInclude: '@',
-      notificationFooterInclude: '@',
-      customScope: '=?'
-    },
-    templateUrl: 'notification/notification-drawer.html',
-    controller: ["$scope", function ($scope) {
-      if (!$scope.allowExpand || angular.isUndefined($scope.drawerExpanded)) {
-        $scope.drawerExpanded = false;
-      }
-    }],
-    link: function (scope, element) {
+angular.module('patternfly.notification').component('pfNotificationDrawer', {
+  bindings: {
+    drawerHidden: '<?',
+    allowExpand: '=?',
+    drawerExpanded: '=?',
+    drawerTitle: '@',
+    notificationGroups: '<',
+    actionButtonTitle: '@',
+    actionButtonCallback: '=?',
+    titleInclude: '@',
+    headingInclude: '@',
+    subheadingInclude: '@',
+    notificationBodyInclude: '@',
+    notificationFooterInclude: '@',
+    customScope: '=?'
+  },
+  templateUrl: 'notification/notification-drawer.html',
+  controller: ["$window", "$timeout", "$element", function ($window, $timeout, $element) {
+    'use strict';
+    var ctrl = this;
 
-      scope.$watch('notificationGroups', function () {
-        var openFound = false;
-        scope.notificationGroups.forEach(function (group) {
+    ctrl.toggleCollapse = function (selectedGroup) {
+      if (selectedGroup.open) {
+        selectedGroup.open = false;
+      } else {
+        ctrl.notificationGroups.forEach(function (group) {
+          group.open = false;
+        });
+        selectedGroup.open = true;
+      }
+    };
+
+    ctrl.toggleExpandDrawer = function () {
+      ctrl.drawerExpanded = !ctrl.drawerExpanded;
+    };
+
+    ctrl.$onInit = function () {
+      if (!ctrl.allowExpand || angular.isUndefined(ctrl.drawerExpanded)) {
+        ctrl.drawerExpanded = false;
+      }
+    };
+
+    ctrl.$onChanges = function (changesObj) {
+      var openFound = false;
+      if (changesObj.notificationGroups) {
+        changesObj.notificationGroups.currentValue.forEach(function (group) {
           if (group.open) {
             if (openFound) {
               group.open = false;
@@ -5741,38 +5758,25 @@ angular.module('patternfly.notification').directive('pfNotificationDrawer', ["$w
             }
           }
         });
-      });
+      }
 
-      scope.$watch('drawerHidden', function () {
+      if (changesObj.drawerHidden) {
         $timeout(function () {
           angular.element($window).triggerHandler('resize');
         }, 100);
-      });
-
-      scope.toggleCollapse = function (selectedGroup) {
-        if (selectedGroup.open) {
-          selectedGroup.open = false;
-        } else {
-          scope.notificationGroups.forEach(function (group) {
-            group.open = false;
-          });
-          selectedGroup.open = true;
-        }
-      };
-
-      scope.toggleExpandDrawer = function () {
-        scope.drawerExpanded = !scope.drawerExpanded;
-      };
-
-      if (scope.groupHeight) {
-        element.find('.panel-group').css("height", scope.groupHeight);
       }
-      if (scope.groupClass) {
-        element.find('.panel-group').addClass(scope.groupClass);
+    };
+
+    ctrl.$postLink = function () {
+      if (ctrl.groupHeight) {
+        $element.find('.panel-group').css("height", ctrl.groupHeight);
       }
-    }
-  };
-}]);
+      if (ctrl.groupClass) {
+        $element.find('.panel-group').addClass(ctrl.groupClass);
+      }
+    };
+  }]
+});
 ;/**
  * @ngdoc service
  * @name patternfly.notification.Notification
@@ -5878,6 +5882,7 @@ angular.module('patternfly.notification').provider('Notifications', function () 
   this.delay = 8000;
   this.verbose = true;
   this.notifications = {};
+  this.notifications.data = [];
   this.persist = {'error': true, 'httpError': true};
 
   this.setDelay = function (delay) {
@@ -5894,7 +5899,7 @@ angular.module('patternfly.notification').provider('Notifications', function () 
     this.persist = persist;
   };
 
-  this.$get = ['$rootScope', '$timeout', '$log', function ($rootScope, $timeout, $log) {
+  this.$get = ['$timeout', '$log', function ($timeout, $log) {
     var delay = this.delay;
     var notifications = this.notifications;
     var verbose = this.verbose;
@@ -5907,15 +5912,8 @@ angular.module('patternfly.notification').provider('Notifications', function () 
       warn: { type: 'warning', header: 'Warning!', log: 'warn'}
     };
 
-    $rootScope.notifications = {};
-    $rootScope.notifications.data = [];
-
-    $rootScope.notifications.remove = function (index) {
-      $rootScope.notifications.data.splice(index, 1);
-    };
-
-    if (!$rootScope.notifications) {
-      $rootScope.notifications.data = [];
+    if (!notifications) {
+      notifications.data = [];
     }
 
     notifications.message = function (type, header, message, isPersistent, closeCallback, actionTitle, actionCallback, menuActions) {
@@ -5931,7 +5929,7 @@ angular.module('patternfly.notification').provider('Notifications', function () 
       };
 
       notification.show = true;
-      $rootScope.notifications.data.push(notification);
+      notifications.data.push(notification);
 
       if (!notification.isPersistent) {
         notification.viewing = false;
@@ -5973,14 +5971,15 @@ angular.module('patternfly.notification').provider('Notifications', function () 
     };
 
     notifications.remove = function (notification) {
-      var index = $rootScope.notifications.data.indexOf(notification);
+      var index = notifications.data.indexOf(notification);
       if (index !== -1) {
         notifications.removeIndex(index);
       }
     };
 
     notifications.removeIndex = function (index) {
-      $rootScope.notifications.remove(index);
+      //notifications.remove(index);
+      notifications.data.splice(index, 1);
     };
 
     notifications.setViewing = function (notification, viewing) {
@@ -5990,8 +5989,6 @@ angular.module('patternfly.notification').provider('Notifications', function () 
       }
     };
 
-    notifications.data = $rootScope.notifications.data;
-
     return notifications;
   }];
 
@@ -5999,11 +5996,11 @@ angular.module('patternfly.notification').provider('Notifications', function () 
 
 /**
  * @ngdoc directive
- * @name patternfly.notification.directive:pfNotificationList
+ * @name patternfly.notification.component:pfNotificationList
  * @restrict E
  *
  * @description
- * Using this directive automatically creates a list of notifications generated by the {@link api/patternfly.notification.Notification notification} service.
+ * Using this component automatically creates a list of notifications generated by the {@link api/patternfly.notification.Notification notification} service.
  *
  * @example
  <example module="patternfly.notification">
@@ -6073,27 +6070,24 @@ angular.module('patternfly.notification').provider('Notifications', function () 
 
  </example>
  */
-angular.module('patternfly.notification').directive('pfNotificationList', function () {
-  'use strict';
+angular.module('patternfly.notification').component('pfNotificationList', {
+  templateUrl: 'notification/notification-list.html',
+  controller: ["Notifications", function (Notifications) {
+    'use strict';
+    var ctrl = this;
 
-  NotificationListController.$inject = ["$scope", "$rootScope"];
-  return {
-    restrict: 'E',
-    controller: NotificationListController,
-    templateUrl: 'notification/notification-list.html'
-  };
-
-  function NotificationListController ($scope, $rootScope) {
-    $scope.notifications = $rootScope.notifications;
-  }
+    ctrl.$onInit = function () {
+      ctrl.notifications = Notifications;
+    };
+  }]
 });
 ;/**
  * @ngdoc directive
- * @name patternfly.notification.directive:pfToastNotificationList
- * @restrict A
+ * @name patternfly.notification.component:pfToastNotificationList
+ * @restrict E
  * @scope
  *
- * @param {Array} notifications The list of current notifcations to display. Each notification should have the following (see pfToastNotification):
+ * @param {Array} notifications The list of current notifications to display. Each notification should have the following (see pfToastNotification):
  *           <ul style='list-style-type: none'>
  *             <li>.type - (String) The type of the notification message. Allowed value is one of these: 'success','info','danger', 'warning'
  *             <li>.header - (String) The header to display for the notification (optional)
@@ -6114,14 +6108,14 @@ angular.module('patternfly.notification').directive('pfNotificationList', functi
  * @param {function} updateViewing (function(boolean, data)) Function to invoke when user is viewing/not-viewing (hovering on) a toast notification
  *
  * @description
- * Using this directive displayes a list of toast notifications
+ * Using this component displayes a list of toast notifications
  *
  * @example
  <example module="patternfly.notification">
 
    <file name="index.html">
      <div ng-controller="ToastNotificationListDemoCtrl" >
-       <div pf-toast-notification-list notifications="notifications" show-close="showClose" close-callback="handleClose" update-viewing="updateViewing"></div>
+       <pf-toast-notification-list notifications="notifications" show-close="showClose" close-callback="handleClose" update-viewing="updateViewing"></pf-toast-notification-list>
        <div class="row example-container">
          <div class="col-md-12">
            <form class="form-horizontal">
@@ -6290,31 +6284,29 @@ angular.module('patternfly.notification').directive('pfNotificationList', functi
 
  </example>
  */
-angular.module('patternfly.notification').directive('pfToastNotificationList', function () {
-  'use strict';
+angular.module('patternfly.notification').component('pfToastNotificationList', {
+  bindings: {
+    notifications: '=',
+    showClose: '=?',
+    closeCallback: '=?',
+    updateViewing: '=?'
+  },
+  templateUrl: 'notification/toast-notification-list.html',
+  controller: function () {
+    'use strict';
+    var ctrl = this;
 
-  return {
-    restrict: 'A',
-    scope: {
-      notifications: '=',
-      showClose: '=?',
-      closeCallback: '=?',
-      updateViewing: '=?'
-    },
-    templateUrl: 'notification/toast-notification-list.html',
-    controller: ["$scope", function ($scope) {
-      $scope.handleClose = function (notification) {
-        if (angular.isFunction($scope.closeCallback)) {
-          $scope.closeCallback(notification);
-        }
-      };
-      $scope.handleViewingChange = function (isViewing, notification) {
-        if (angular.isFunction($scope.updateViewing)) {
-          $scope.updateViewing(isViewing, notification);
-        }
-      };
-    }]
-  };
+    ctrl.handleClose = function (notification) {
+      if (angular.isFunction(ctrl.closeCallback)) {
+        ctrl.closeCallback(notification);
+      }
+    };
+    ctrl.handleViewingChange = function (isViewing, notification) {
+      if (angular.isFunction(ctrl.updateViewing)) {
+        ctrl.updateViewing(isViewing, notification);
+      }
+    };
+  }
 });
 ;/**
  * @ngdoc directive
@@ -10187,22 +10179,17 @@ angular.module('patternfly.wizard').directive('pfWizardSubstep', function () {
 
 
   $templateCache.put('notification/notification-drawer.html',
-    "<div class=drawer-pf ng-class=\"{'hide': drawerHidden, 'drawer-pf-expanded': drawerExpanded}\"><div ng-if=drawerTitle class=drawer-pf-title><a ng-if=allowExpand class=drawer-pf-toggle-expand ng-click=toggleExpandDrawer()></a><h3 class=text-center>{{drawerTitle}}</h3></div><div ng-if=titleInclude class=drawer-pf-title ng-include src=titleInclude></div><div pf-fixed-accordion scroll-selector=.panel-body><div class=panel-group><div class=\"panel panel-default\" ng-repeat=\"notificationGroup in notificationGroups track by $index\"><div class=panel-heading><h4 class=panel-title><a ng-click=toggleCollapse(notificationGroup) ng-class=\"{collapsed: !notificationGroup.open}\" ng-include src=headingInclude></a></h4><span class=panel-counter ng-include src=subheadingInclude></span></div><div class=\"panel-collapse collapse\" ng-class=\"{in: notificationGroup.open}\"><div class=panel-body><div class=drawer-pf-notification ng-class=\"{unread: notification.unread, 'expanded-notification': drawerExpanded}\" ng-repeat=\"notification in notificationGroup.notifications\" ng-include src=notificationBodyInclude></div><div ng-if=notificationGroup.isLoading class=\"drawer-pf-loading text-center\"><span class=\"spinner spinner-xs spinner-inline\"></span> Loading More</div></div><div class=drawer-pf-action ng-if=actionButtonTitle><a class=\"btn btn-link btn-block\" ng-click=actionButtonCallback(notificationGroup)>{{actionButtonTitle}}</a></div><div ng-if=notificationFooterInclude ng-include src=notificationFooterInclude></div></div></div></div></div></div>"
+    "<div class=drawer-pf ng-class=\"{'hide': $ctrl.drawerHidden, 'drawer-pf-expanded': $ctrl.drawerExpanded}\"><div ng-if=$ctrl.drawerTitle class=drawer-pf-title><a ng-if=$ctrl.allowExpand class=drawer-pf-toggle-expand ng-click=$ctrl.toggleExpandDrawer()></a><h3 class=text-center>{{$ctrl.drawerTitle}}</h3></div><div ng-if=$ctrl.titleInclude class=drawer-pf-title ng-include src=$ctrl.titleInclude></div><div pf-fixed-accordion scroll-selector=.panel-body><div class=panel-group><div class=\"panel panel-default\" ng-repeat=\"notificationGroup in $ctrl.notificationGroups track by $index\"><div class=panel-heading><h4 class=panel-title><a ng-click=$ctrl.toggleCollapse(notificationGroup) ng-class=\"{collapsed: !notificationGroup.open}\" ng-include src=$ctrl.headingInclude></a></h4><span class=panel-counter ng-include src=$ctrl.subheadingInclude></span></div><div class=\"panel-collapse collapse\" ng-class=\"{in: notificationGroup.open}\"><div class=panel-body><div class=drawer-pf-notification ng-class=\"{unread: notification.unread, 'expanded-notification': $ctrl.drawerExpanded}\" ng-repeat=\"notification in notificationGroup.notifications\" ng-include src=$ctrl.notificationBodyInclude></div><div ng-if=notificationGroup.isLoading class=\"drawer-pf-loading text-center\"><span class=\"spinner spinner-xs spinner-inline\"></span> Loading More</div></div><div class=drawer-pf-action ng-if=$ctrl.actionButtonTitle><a class=\"btn btn-link btn-block\" ng-click=$ctrl.actionButtonCallback(notificationGroup)>{{$ctrl.actionButtonTitle}}</a></div><div ng-if=$ctrl.notificationFooterInclude ng-include src=$ctrl.notificationFooterInclude></div></div></div></div></div></div>"
   );
 
 
   $templateCache.put('notification/notification-list.html',
-    "<div data-ng-show=\"notifications.data.length > 0\"><div ng-repeat=\"notification in notifications.data\"><pf-inline-notification pf-notification-type=notification.type pf-notification-header=notification.header pf-notification-message=notification.message pf-notification-persistent=notification.isPersistent pf-notification-index=$index></pf-inline-notification></div></div>"
-  );
-
-
-  $templateCache.put('notification/notification.html',
-    "<div class=\"alert alert-{{pfNotificationType}}\"><button ng-show=pfNotificationPersistent type=button class=close ng-click=$parent.notifications.remove($index)><span aria-hidden=true>&times;</span><span class=sr-only>Close</span></button> <span class=\"pficon pficon-ok\" ng-show=\"pfNotificationType === 'success'\"></span> <span class=\"pficon pficon-info\" ng-show=\"pfNotificationType === 'info'\"></span> <span class=\"pficon pficon-error-circle-o\" ng-show=\"pfNotificationType === 'danger'\"></span> <span class=\"pficon pficon-warning-triangle-o\" ng-show=\"pfNotificationType === 'warning'\"></span> <strong>{{pfNotificationHeader}}</strong> {{pfNotificationMessage}}</div>"
+    "<div data-ng-show=\"$ctrl.notifications.data.length > 0\"><div ng-repeat=\"notification in $ctrl.notifications.data\"><pf-inline-notification pf-notification-type=notification.type pf-notification-header=notification.header pf-notification-message=notification.message pf-notification-persistent=notification.isPersistent pf-notification-index=$index></pf-inline-notification></div></div>"
   );
 
 
   $templateCache.put('notification/toast-notification-list.html',
-    "<div class=toast-notifications-list-pf data-ng-show=\"notifications.length > 0\"><div ng-repeat=\"notification in notifications\"><pf-toast-notification notification-type={{notification.type}} header={{notification.header}} message={{notification.message}} show-close=\"{{(showClose || notification.isPersistent === true) && !(notification.menuActions && notification.menuActions.length > 0)}}\" close-callback=handleClose action-title={{notification.actionTitle}} action-callback=notification.actionCallback menu-actions=notification.menuActions update-viewing=handleViewingChange data=notification></pf-toast-notification></div></div>"
+    "<div class=toast-notifications-list-pf data-ng-show=\"$ctrl.notifications.length > 0\"><div ng-repeat=\"notification in $ctrl.notifications\"><pf-toast-notification notification-type={{notification.type}} header={{notification.header}} message={{notification.message}} show-close=\"{{($ctrl.showClose || notification.isPersistent === true) && !(notification.menuActions && notification.menuActions.length > 0)}}\" close-callback=$ctrl.handleClose action-title={{notification.actionTitle}} action-callback=notification.actionCallback menu-actions=notification.menuActions update-viewing=$ctrl.handleViewingChange data=notification></pf-toast-notification></div></div>"
   );
 
 

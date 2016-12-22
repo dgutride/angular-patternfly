@@ -8828,22 +8828,8 @@ angular.module('patternfly.wizard').component('pfWizardReviewPage', {
     'use strict';
     var ctrl = this;
 
-    ctrl.toggleShowReviewDetails = function (step) {
-      if (step.showReviewDetails === true) {
-        step.showReviewDetails = false;
-      } else {
-        step.showReviewDetails = true;
-      }
-    };
-    ctrl.getSubStepNumber = function (step, substep) {
-      return step.getStepDisplayNumber(substep);
-    };
-    ctrl.getReviewSubSteps = function (reviewStep) {
-      return reviewStep.getReviewSteps();
-    };
-    ctrl.reviewSteps = [];
-    ctrl.updateReviewSteps = function () {
-      ctrl.reviewSteps = ctrl.wizard.getReviewSteps();
+    ctrl.$onInit = function () {
+      ctrl.reviewSteps = [];
     };
 
     ctrl.$onChanges = function (changesObj) {
@@ -8852,6 +8838,26 @@ angular.module('patternfly.wizard').component('pfWizardReviewPage', {
           ctrl.updateReviewSteps();
         }
       }
+    };
+
+    ctrl.toggleShowReviewDetails = function (step) {
+      if (step.showReviewDetails === true) {
+        step.showReviewDetails = false;
+      } else {
+        step.showReviewDetails = true;
+      }
+    };
+
+    ctrl.getSubStepNumber = function (step, substep) {
+      return step.getStepDisplayNumber(substep);
+    };
+
+    ctrl.getReviewSubSteps = function (reviewStep) {
+      return reviewStep.getReviewSteps();
+    };
+
+    ctrl.updateReviewSteps = function () {
+      ctrl.reviewSteps = ctrl.wizard.getReviewSteps();
     };
   }
 });
@@ -8909,8 +8915,8 @@ angular.module('patternfly.wizard').component('pfWizardStep', {
   controller: ["$timeout", function ($timeout) {
     'use strict';
 
-    var firstRun = true,
-      ctrl = this;
+    var ctrl = this,
+      firstRun;
 
     var stepIdx = function (step) {
       var idx = 0;
@@ -8943,32 +8949,59 @@ angular.module('patternfly.wizard').component('pfWizardStep', {
       return foundStep;
     };
 
-    ctrl.steps = [];
-    ctrl.context = {};
+    ctrl.$onInit = function () {
+      firstRun = true;
+      ctrl.steps = [];
+      ctrl.context = {};
+      ctrl.title =  ctrl.stepTitle;
+      ctrl.contentStyle = ctrl.wizard.contentStyle;
+      ctrl.wizard.addStep(ctrl);
+      ctrl.pageNumber = ctrl.wizard.getStepNumber(ctrl);
 
-    if (angular.isUndefined(ctrl.nextEnabled)) {
-      ctrl.nextEnabled = true;
-    }
-    if (angular.isUndefined(ctrl.prevEnabled)) {
-      ctrl.prevEnabled = true;
-    }
-    if (angular.isUndefined(ctrl.showReview)) {
-      ctrl.showReview = false;
-    }
-    if (angular.isUndefined(ctrl.showReviewDetails)) {
-      ctrl.showReviewDetails = false;
-    }
-    if (angular.isUndefined(ctrl.stepPriority)) {
-      ctrl.stepPriority = 999;
-    } else {
-      ctrl.stepPriority = parseInt(ctrl.stepPriority);
-    }
-    if (angular.isUndefined(ctrl.okToNavAway)) {
-      ctrl.okToNavAway = true;
-    }
-    if (angular.isUndefined(ctrl.allowClickNav)) {
-      ctrl.allowClickNav = true;
-    }
+      if (angular.isUndefined(ctrl.nextEnabled)) {
+        ctrl.nextEnabled = true;
+      }
+      if (angular.isUndefined(ctrl.prevEnabled)) {
+        ctrl.prevEnabled = true;
+      }
+      if (angular.isUndefined(ctrl.showReview)) {
+        ctrl.showReview = false;
+      }
+      if (angular.isUndefined(ctrl.showReviewDetails)) {
+        ctrl.showReviewDetails = false;
+      }
+      if (angular.isUndefined(ctrl.stepPriority)) {
+        ctrl.stepPriority = 999;
+      } else {
+        ctrl.stepPriority = parseInt(ctrl.stepPriority);
+      }
+      if (angular.isUndefined(ctrl.okToNavAway)) {
+        ctrl.okToNavAway = true;
+      }
+      if (angular.isUndefined(ctrl.allowClickNav)) {
+        ctrl.allowClickNav = true;
+      }
+
+      if (ctrl.substeps && !ctrl.onShow) {
+        ctrl.onShow = function () {
+          $timeout(function () {
+            if (!ctrl.selectedStep) {
+              ctrl.goTo(ctrl.getEnabledSteps()[0]);
+            }
+          }, 10);
+        };
+      }
+    };
+
+    ctrl.$onChanges = function (changesObj) {
+      if (changesObj.nextTooltip) {
+        ctrl.wizard.nextTooltip = changesObj.nextTooltip.currentValue;
+      }
+
+      if (changesObj.prevTooltip) {
+        ctrl.wizard.prevTooltip = changesObj.prevTooltip.currentValue;
+      }
+    };
 
     ctrl.getEnabledSteps = function () {
       return ctrl.steps.filter(function (step) {
@@ -9061,7 +9094,7 @@ angular.module('patternfly.wizard').component('pfWizardStep', {
       }
     };
 
-    this.addStep = function (step) {
+    ctrl.addStep = function (step) {
       // Insert the step into step array
       var insertBefore = _.find(ctrl.steps, function (nextStep) {
         return nextStep.stepPriority > step.stepPriority;
@@ -9073,34 +9106,20 @@ angular.module('patternfly.wizard').component('pfWizardStep', {
       }
     };
 
-    this.currentStepTitle = function () {
+    ctrl.currentStepTitle = function () {
       return ctrl.selectedStep.stepTitle;
     };
 
-    this.currentStepDescription = function () {
+    ctrl.currentStepDescription = function () {
       return ctrl.selectedStep.description;
     };
 
-    this.currentStep = function () {
+    ctrl.currentStep = function () {
       return ctrl.selectedStep;
     };
 
-    this.totalStepCount = function () {
+    ctrl.totalStepCount = function () {
       return ctrl.getEnabledSteps().length;
-    };
-
-    // Allow access to any step
-    this._goTo = function (step) {
-      var enabledSteps = ctrl.getEnabledSteps();
-      var stepTo;
-
-      if (angular.isNumber(step)) {
-        stepTo = enabledSteps[step];
-      } else {
-        stepTo = stepByTitle(step);
-      }
-
-      ctrl.goTo(stepTo);
     };
 
     // Method used for next button within step
@@ -9148,35 +9167,7 @@ angular.module('patternfly.wizard').component('pfWizardStep', {
           }
         }
       }
-
       return goPrev;
-    };
-
-    if (ctrl.substeps && !ctrl.onShow) {
-      ctrl.onShow = function () {
-        $timeout(function () {
-          if (!ctrl.selectedStep) {
-            ctrl.goTo(ctrl.getEnabledSteps()[0]);
-          }
-        }, 10);
-      };
-    }
-
-    ctrl.$onInit = function () {
-      ctrl.title =  ctrl.stepTitle;
-      ctrl.contentStyle = ctrl.wizard.contentStyle;
-      ctrl.wizard.addStep(ctrl);
-      ctrl.pageNumber = ctrl.wizard.getStepNumber(ctrl);
-    };
-
-    ctrl.$onChanges = function (changesObj) {
-      if (changesObj.nextTooltip) {
-        ctrl.wizard.nextTooltip = changesObj.nextTooltip.currentValue;
-      }
-
-      if (changesObj.prevTooltip) {
-        ctrl.wizard.prevTooltip = changesObj.prevTooltip.currentValue;
-      }
     };
   }]
 });
@@ -9226,37 +9217,28 @@ angular.module('patternfly.wizard').component('pfWizardSubstep', {
     'use strict';
     var ctrl = this;
 
-    if (angular.isUndefined(ctrl.nextEnabled)) {
-      ctrl.nextEnabled = true;
-    }
-    if (angular.isUndefined(ctrl.prevEnabled)) {
-      ctrl.prevEnabled = true;
-    }
-    if (angular.isUndefined(ctrl.showReviewDetails)) {
-      ctrl.showReviewDetails = false;
-    }
-    if (angular.isUndefined(ctrl.stepPriority)) {
-      ctrl.stepPriority = 999;
-    } else {
-      ctrl.stepPriority = parseInt(ctrl.stepPriority);
-    }
-    if (angular.isUndefined(ctrl.okToNavAway)) {
-      ctrl.okToNavAway = true;
-    }
-    if (angular.isUndefined(ctrl.allowClickNav)) {
-      ctrl.allowClickNav = true;
-    }
-
-    ctrl.isPrevEnabled = function () {
-      var enabled = angular.isUndefined(ctrl.prevEnabled) || ctrl.prevEnabled;
-      if (ctrl.substeps) {
-        angular.forEach(ctrl.getEnabledSteps(), function (step) {
-          enabled = enabled && step.prevEnabled;
-        });
-      }
-      return enabled;
-    };
     ctrl.$onInit = function () {
+      if (angular.isUndefined(ctrl.nextEnabled)) {
+        ctrl.nextEnabled = true;
+      }
+      if (angular.isUndefined(ctrl.prevEnabled)) {
+        ctrl.prevEnabled = true;
+      }
+      if (angular.isUndefined(ctrl.showReviewDetails)) {
+        ctrl.showReviewDetails = false;
+      }
+      if (angular.isUndefined(ctrl.stepPriority)) {
+        ctrl.stepPriority = 999;
+      } else {
+        ctrl.stepPriority = parseInt(ctrl.stepPriority);
+      }
+      if (angular.isUndefined(ctrl.okToNavAway)) {
+        ctrl.okToNavAway = true;
+      }
+      if (angular.isUndefined(ctrl.allowClickNav)) {
+        ctrl.allowClickNav = true;
+      }
+
       ctrl.title = ctrl.stepTitle;
       ctrl.step.addStep(ctrl);
     };
@@ -9277,6 +9259,16 @@ angular.module('patternfly.wizard').component('pfWizardSubstep', {
       if (changesObj.allowClickNav) {
         ctrl.step.allowClickNav = changesObj.allowClickNav.currentValue;
       }
+    };
+
+    ctrl.isPrevEnabled = function () {
+      var enabled = angular.isUndefined(ctrl.prevEnabled) || ctrl.prevEnabled;
+      if (ctrl.substeps) {
+        angular.forEach(ctrl.getEnabledSteps(), function (step) {
+          enabled = enabled && step.prevEnabled;
+        });
+      }
+      return enabled;
     };
   }
 });
@@ -9607,7 +9599,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
   controller: ["$timeout", function ($timeout) {
     'use strict';
     var ctrl = this,
-      firstRun = true;
+      firstRun;
 
     var stepIdx = function (step) {
       var idx = 0;
@@ -9640,31 +9632,55 @@ angular.module('patternfly.wizard').component('pfWizard', {
       return foundStep;
     };
 
-    ctrl.steps = [];
-    ctrl.context = {};
+    ctrl.$onInit = function () {
+      firstRun = true;
+      ctrl.steps = [];
+      ctrl.context = {};
 
-    if (angular.isUndefined(ctrl.wizardReady)) {
-      ctrl.wizardReady = true;
-    }
+      if (angular.isUndefined(ctrl.wizardReady)) {
+        ctrl.wizardReady = true;
+      }
 
-    if (angular.isUndefined(ctrl.contentHeight)) {
-      ctrl.contentHeight = '300px';
-    }
-    ctrl.contentStyle = {
-      'height': ctrl.contentHeight,
-      'max-height': ctrl.contentHeight,
-      'overflow-y': 'auto'
+      if (angular.isUndefined(ctrl.contentHeight)) {
+        ctrl.contentHeight = '300px';
+      }
+      ctrl.contentStyle = {
+        'height': ctrl.contentHeight,
+        'max-height': ctrl.contentHeight,
+        'overflow-y': 'auto'
+      };
+
+      if (!ctrl.cancelTitle) {
+        ctrl.cancelTitle = "Cancel";
+      }
+      if (!ctrl.backTitle) {
+        ctrl.backTitle = "< Back";
+      }
+      if (!ctrl.nextTitle) {
+        ctrl.nextTitle = "Next >";
+      }
     };
 
-    if (!ctrl.cancelTitle) {
-      ctrl.cancelTitle = "Cancel";
-    }
-    if (!ctrl.backTitle) {
-      ctrl.backTitle = "< Back";
-    }
-    if (!ctrl.nextTitle) {
-      ctrl.nextTitle = "Next >";
-    }
+    ctrl.$onChanges = function (changesObj) {
+      var step;
+
+      if (changesObj.wizardReady && changesObj.wizardReady.currentValue) {
+        ctrl.goTo(ctrl.getEnabledSteps()[0]);
+      }
+
+      if (changesObj.currentStep) {
+        //checking to make sure currentStep is truthy value
+        step = changesObj.currentStep.currentValue;
+        if (!step) {
+          return;
+        }
+
+        //setting stepTitle equal to current step title or default title
+        if (ctrl.selectedStep && ctrl.selectedStep.title !== step) {
+          ctrl.goTo(stepByTitle(step));
+        }
+      }
+    };
 
     ctrl.getEnabledSteps = function () {
       return ctrl.steps.filter(function (step) {
@@ -9672,7 +9688,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
       });
     };
 
-    this.getReviewSteps = function () {
+    ctrl.getReviewSteps = function () {
       return ctrl.steps.filter(function (step) {
         return !step.disabled &&
           (!angular.isUndefined(step.reviewTemplate) || step.getReviewSteps().length > 0);
@@ -9738,7 +9754,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
       }
     };
 
-    this.addStep = function (step) {
+    ctrl.addStep = function (step) {
       // Insert the step into step array
       var insertBefore = _.find(ctrl.steps, function (nextStep) {
         return nextStep.stepPriority > step.stepPriority;
@@ -9762,11 +9778,11 @@ angular.module('patternfly.wizard').component('pfWizard', {
       ctrl.firstStep =  stepIdx(ctrl.selectedStep) === 0 && value === 0;
     };
 
-    this.currentStepTitle = function () {
+    ctrl.currentStepTitle = function () {
       return ctrl.selectedStep.title;
     };
 
-    this.currentStepDescription = function () {
+    ctrl.currentStepDescription = function () {
       return ctrl.selectedStep.description;
     };
 
@@ -9779,7 +9795,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
     };
 
     // Allow access to any step
-    this.goToStep = function (step, resetStepNav) {
+    ctrl.goToStep = function (step, resetStepNav) {
       var enabledSteps = ctrl.getEnabledSteps();
       var stepTo;
 
@@ -9793,7 +9809,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
     };
 
     // Method used for next button within step
-    this.next = function (callback) {
+    ctrl.next = function (callback) {
       var enabledSteps = ctrl.getEnabledSteps();
 
       // Save the step  you were on when next() was invoked
@@ -9809,7 +9825,7 @@ angular.module('patternfly.wizard').component('pfWizard', {
       if (angular.isFunction(callback)) {
         if (callback(ctrl.selectedStep)) {
           if (index === enabledSteps.length - 1) {
-            this.finish();
+            ctrl.finish();
           } else {
             // Go to the next step
             if (enabledSteps[index + 1].substeps) {
@@ -9826,14 +9842,14 @@ angular.module('patternfly.wizard').component('pfWizard', {
 
       // Check to see if this is the last step.  If it is next behaves the same as finish()
       if (index === enabledSteps.length - 1) {
-        this.finish();
+        ctrl.finish();
       } else {
         // Go to the next step
         ctrl.goTo(enabledSteps[index + 1]);
       }
     };
 
-    this.previous = function (callback) {
+    ctrl.previous = function (callback) {
       var index = stepIdx(ctrl.selectedStep);
 
       if (ctrl.selectedStep.substeps) {
@@ -9854,51 +9870,30 @@ angular.module('patternfly.wizard').component('pfWizard', {
       }
     };
 
-    this.finish = function () {
+    ctrl.finish = function () {
       if (ctrl.onFinish) {
         if (ctrl.onFinish() !== false) {
-          this.reset();
+          ctrl.reset();
         }
       }
     };
 
-    this.cancel = function () {
+    ctrl.cancel = function () {
       if (ctrl.onCancel) {
         if (ctrl.onCancel() !== false) {
-          this.reset();
+          ctrl.reset();
         }
       }
     };
 
     //reset
-    this.reset = function () {
+    ctrl.reset = function () {
       //traverse steps array and set each "completed" property to false
       angular.forEach(ctrl.getEnabledSteps(), function (step) {
         step.completed = false;
       });
       //go to first step
-      this.goToStep(0);
-    };
-
-    ctrl.$onChanges = function (changesObj) {
-      var step;
-
-      if (changesObj.wizardReady && changesObj.wizardReady.currentValue) {
-        ctrl.goTo(ctrl.getEnabledSteps()[0]);
-      }
-
-      if (changesObj.currentStep) {
-        //checking to make sure currentStep is truthy value
-        step = changesObj.currentStep.currentValue;
-        if (!step) {
-          return;
-        }
-
-        //setting stepTitle equal to current step title or default title
-        if (ctrl.selectedStep && ctrl.selectedStep.title !== step) {
-          ctrl.goTo(stepByTitle(step));
-        }
-      }
+      ctrl.goToStep(0);
     };
   }]
 });

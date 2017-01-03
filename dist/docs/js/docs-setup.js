@@ -122,39 +122,39 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "patternfly.filters.directive:pfFilter",
+      "id": "patternfly.filters.component:pfFilter",
       "shortName": "pfFilter",
       "type": "directive",
       "moduleName": "patternfly.filters",
-      "shortDescription": "Directive for a filter bar",
-      "keywords": "$scope address allitems angular api apple applied appliedfilters applyfilters april august bar bedrock birth birthmonth boulevard box call cfme-row-column changes cincinatti class col-md-12 col-md-2 col-md-3 col-md-7 comparisons config configuration controller current currently december dinosaur directive display east elm entered events-label example-container examplefilter false february field fields filter filterable filterchange filterconfig filters filterstext filtertype filtervalues flintstone foreach frank fred function green html input item items january john js judy july june length list list-style-type livingston main march match matches matchesfilter matchesfilters module month ng-controller ng-repeat norfolk november null number october ohio onfilterchange optional pat patternfly pennsylvania pf-filter pittsburgh placeholder push resultscount return returned row rows script second select september settings single smith street style text thomas title true type unique valid values var viewctrl virginia washingstone york"
+      "shortDescription": "Component for a filter bar",
+      "keywords": "$scope address allitems angular api apple applied appliedfilters applyfilters april august bar bedrock birth birthmonth boulevard box call cfme-row-column changes cincinatti class col-md-12 col-md-2 col-md-3 col-md-7 comparisons component config configuration controller current currently december dinosaur directive display east elm entered events-label example-container examplefilter false february field fields filter filterable filterchange filterconfig filters filterstext filtertype filtervalues flintstone foreach frank fred function green html input item items january john js judy july june length list list-style-type livingston main march match matches matchesfilter matchesfilters module month ng-controller ng-repeat norfolk november null number october ohio onfilterchange optional pat patternfly pennsylvania pittsburgh placeholder push resultscount return returned row rows script second select september settings single smith street style text thomas title true type unique valid values var viewctrl virginia washingstone york"
     },
     {
       "section": "api",
-      "id": "patternfly.filters.directive:pfFilterFields",
+      "id": "patternfly.filters.component:pfFilterFields",
       "shortName": "pfFilterFields",
       "type": "directive",
       "moduleName": "patternfly.filters",
       "shortDescription": "Directive for the filter bar&#39;s filter entry components",
-      "keywords": "api applied appliedfilters bar box comparisons components config configuration currently directive display entered entry field fields filter filterable filters filtertype filtervalues html input list list-style-type optional patternfly placeholder select settings style text title type unique valid values"
+      "keywords": "api applied appliedfilters bar box comparisons component components config configuration currently directive display entered entry field fields filter filterable filters filtertype filtervalues html input list list-style-type optional patternfly placeholder select settings style text title type unique valid values"
     },
     {
       "section": "api",
-      "id": "patternfly.filters.directive:pfFilterResults",
+      "id": "patternfly.filters.component:pfFilterResults",
       "shortName": "pfFilterResults",
       "type": "directive",
       "moduleName": "patternfly.filters",
-      "shortDescription": "Directive for the filter results components",
-      "keywords": "api applied appliedfilters box call changes comparisons components config configuration current currently directive display entered field fields filter filterable filters filtertype filtervalues function html input list list-style-type number onfilterchange optional patternfly placeholder resultscount returned select settings style text title type unique valid values"
+      "shortDescription": "Component for the filter results",
+      "keywords": "api applied appliedfilters box call changes comparisons component config configuration current currently directive display entered field fields filter filterable filters filtertype filtervalues function html input list list-style-type number onfilterchange optional patternfly placeholder resultscount returned select settings style text title type unique valid values"
     },
     {
       "section": "api",
-      "id": "patternfly.form.directive:pfFormButtons",
+      "id": "patternfly.form.component:pfFormButtons",
       "shortName": "pfFormButtons",
       "type": "directive",
       "moduleName": "patternfly.form",
       "shortDescription": "Encapsulates the standard structure and styling for create and cancel buttons",
-      "keywords": "$scope $timeout angular api button buttons call cancel cancelled class clicks col-sm-2 col-sm-5 container control-label controller create creates directive encapsulates false form form-control form-group formbuttonctrl function html input item js model module ng-controller ng-model null patternfly pf-form-buttons pf-on-cancel pf-on-save pf-working pfbuttonclass pfhandlecancel pfhandlesave pfworking save saved scope script standard status store structure styling text true type user working"
+      "keywords": "$element $scope $timeout angular api button buttons call cancel cancelled class clicks col-sm-2 col-sm-5 component container control-label controller create creates directive encapsulates false form form-control form-group formbuttonctrl function html input item js model module ng-controller ng-model null patternfly pf-on-cancel pf-on-save pf-working pfbuttonclass pfhandlecancel pfhandlesave pfworking required save saved scope script standard status store structure styling testform text true type user working"
     },
     {
       "section": "api",
@@ -163,7 +163,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "patternfly.form",
       "shortDescription": "Encapsulates the structure and styling for a label + input used within a",
-      "keywords": "$scope angular api based bootstrap3 class col-sm-2 col-sm-5 col-sm-9 controller creates default description directive doh donuts duff element encapsulates field form form-horizontal formdemoctrl function homer html input item js label module ng-controller ng-model patternfly pf-form-group pf-input-class pf-label pffieldid pfinputclass pflabel pflabelclass required scope script simpson structure styling text type"
+      "keywords": "$scope angular api based bootstrap3 class col-sm-2 col-sm-5 controller creates default description directive doh donuts duff element encapsulates field form form-horizontal formdemoctrl function homer html input item js label module ng-controller ng-model patternfly pf-input-class pf-label pf-label-class pffieldid pfinputclass pflabel pflabelclass required scope script simpson structure styling text type"
     },
     {
       "section": "api",
@@ -176,12 +176,12 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "patternfly.modals.directive:pfAboutModal",
+      "id": "patternfly.modals.component:pfAboutModal",
       "shortName": "pfAboutModal",
       "type": "directive",
       "moduleName": "patternfly.modals",
-      "shortDescription": "Directive for rendering modal windows.",
-      "keywords": "$scope additional-info additionalinfo admin administrator alt angular ante api bibendum btn btn-default call class closed commodo consequat controller copyright corner data dignissim directive donec egestas explaining false feugiat flag function fusce grahpic html iaculis img img-alt img-src imgalt imgsrc indicating interdum ipsum is-open isopen js label laoreet lectus list-style-type localhost lorem modal modalctrl modals module neque ng-click ng-controller nulla odio on-close onclose open opened patternfly pf-about-modal placerat product product-info productinfo quam rendering risus role script sed semper server source style suscipit suspendisse svg symbol tempus text title trademark tristique true urna user ut vel version vestibulum windows"
+      "shortDescription": "Component for rendering modal windows.",
+      "keywords": "$scope additional-info additionalinfo admin administrator alt angular ante api bibendum btn btn-default call class closed commodo component consequat controller copyright corner data dignissim directive donec egestas explaining false feugiat flag function fusce grahpic html iaculis img img-alt img-src imgalt imgsrc indicating interdum ipsum is-open isopen js label laoreet lectus list-style-type localhost lorem modal modalctrl modals module neque ng-click ng-controller nulla odio on-close onclose open opened patternfly placerat product product-info productinfo quam rendering risus role script sed semper server source style suscipit suspendisse svg symbol tempus text title trademark tristique true urna user ut vel version vestibulum windows"
     },
     {
       "section": "api",
@@ -257,21 +257,30 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "patternfly.sort.directive:pfSort",
-      "shortName": "pfSort",
+      "id": "patternfly.select.component:pfSelect",
+      "shortName": "pfSelect",
       "type": "directive",
-      "moduleName": "patternfly.sort",
-      "shortDescription": "Directive for a  sort component",
-      "keywords": "$scope alpha alright angular api ascending beautiful call cfme-row-column change cheap class col-md-12 col-md-3 comparefn component compvalue config configuration controller count current currentfield currently descending description direction directive display events-label example-container examplesort excellent false fantastic field fields forever function good horrible html isascending item item1 item2 items js lasts list list-style-type localecompare module ng-controller ng-repeat nice numeric onsortchange params patternfly pf-sort return row script selected settings sort sortable sortchange sortconfig sortdirection sorttype stuff style title true type unique var viewctrl"
+      "moduleName": "patternfly.select",
+      "shortDescription": "The pfSelect component provides a wrapper for the angular ui bootstrap dropdown container allowing for use of ng-model and ng-options",
+      "keywords": "$scope allowing angular angularjs ape api apple apples attribute banana bananas beer binding bootstrap cat chicken class coffee col-sm-10 col-sm-2 component container control-label controller directive display-field dog drink drinks dropdown dynamically elements empty-value florida form-group form-horizontal fresh fruit fruits function generate great html https js list macintosh mandatory model module ng-controller ng-model ng-options ngmodel ngmodelcontroller ngoptions nodrink nopet options orange oranges org patternfly pet pets pfselect pies preferred script select selectdemoctrl selected tea title ui water wine wrapper"
     },
     {
       "section": "api",
-      "id": "patternfly.toolbars.directive:pfToolbar",
+      "id": "patternfly.sort.component:pfSort",
+      "shortName": "pfSort",
+      "type": "directive",
+      "moduleName": "patternfly.sort",
+      "shortDescription": "Sort component",
+      "keywords": "$scope alpha alright angular api ascending beautiful call cfme-row-column change cheap class col-md-12 col-md-3 comparefn component compvalue config configuration controller count current currentfield currently descending description direction directive display events-label example-container examplesort excellent false fantastic field fields forever function good horrible html isascending item item1 item2 items js lasts list list-style-type localecompare module ng-controller ng-repeat nice numeric onsortchange params patternfly return row script selected settings sort sortable sortchange sortconfig sortdirection sorttype stuff style title true type unique var viewctrl"
+    },
+    {
+      "section": "api",
+      "id": "patternfly.toolbars.componenet:pfToolbar",
       "shortName": "pfToolbar",
       "type": "directive",
       "moduleName": "patternfly.toolbars",
-      "shortDescription": "Directive for standard toolbar. Includes filtering and view selection capabilities",
-      "keywords": "$scope action actionfn actions actions-label actionsconfig actionsinclude actionstext add address age allitems alpha angular api apple appliedfilters applyfilters april august bedrock birth birthmonth boulevard btn btn-default button buttons call capabilities card-view-container cardview caret checkdisabled cincinatti class col-md-12 comparefn comparisons compvalue config configuration controller currentfield currently currentview custom december dinosaur directive disable disabled display displayed doadd dropdown dropdown-menu dropdown-toggle east elm events-label example-container exampletoolbar fa fa-plus false february fields filter filterchange filterconfig filtering filters filterstext filtertype filtervalues flintstone foreach frank fred function getcardview getlistview green grouped html icon iconclass includes invoke isascending isdisabled isseparator item item1 item2 items january john js judy july june length list list-group-item-heading list-group-item-text list-style-type list-view-container list-view-pf-additional-info list-view-pf-additional-info-item list-view-pf-description listconfig listview livingston localecompare main march match matches matchesfilter matchesfilters menu menuitem module month monthvals moreactions ng-click ng-controller ng-if norfolk november null numeric october ohio onfilterchange onsortchange onviewselect option optional options optionselected parseint pat patternfly pennsylvania perform performaction pf-toolbar pfsimplefilter pfsort pfviewutils pittsburgh placehodler placeholder primary primary-action primaryactions pulldown push resultscount return role row rows script second secondary secondary-action select selected selection selectionmatchprop selector separator september set settings smith sort sortchange sortconfig sorttype standard street style text thing thomas title toolbar toolbarconfig toolbars tooltip transclude true type uib-dropdown uib-dropdown-toggle unavailable undefined unique var view viewctrl viewid views viewsconfig viewselected viewtype virginia vm washingstone york"
+      "shortDescription": "Standard toolbar component. Includes filtering and view selection capabilities",
+      "keywords": "$scope action actionfn actions actions-label actionsconfig actionsinclude actionstext add address age allitems alpha angular api apple appliedfilters applyfilters april august bedrock birth birthmonth boulevard btn btn-default button buttons call capabilities card-view-container cardview caret checkdisabled cincinatti class col-md-12 comparefn comparisons componenet component compvalue config configuration controller currentfield currently currentview custom december dinosaur directive disable disabled display displayed doadd dropdown dropdown-menu dropdown-toggle east elm events-label example-container exampletoolbar fa fa-plus false february fields filter filterchange filterconfig filtering filters filterstext filtertype filtervalues flintstone foreach frank fred function getcardview getlistview green grouped html icon iconclass includes invoke isascending isdisabled isseparator item item1 item2 items january john js judy july june length list list-group-item-heading list-group-item-text list-style-type list-view-container list-view-pf-additional-info list-view-pf-additional-info-item list-view-pf-description listconfig listview livingston localecompare main march match matches matchesfilter matchesfilters menu menuitem module month monthvals moreactions ng-click ng-controller ng-if norfolk november null numeric october ohio onfilterchange onsortchange onviewselect option optional options optionselected parseint pat patternfly pennsylvania perform performaction pfsimplefilter pfsort pfviewutils pittsburgh placehodler placeholder primary primary-action primaryactions pulldown push resultscount return role row rows script second secondary secondary-action select selected selection selectionmatchprop selector separator september set settings smith sort sortchange sortconfig sorttype standard street style text thing thomas title toolbar toolbarconfig toolbars tooltip transclude true type uib-dropdown uib-dropdown-toggle unavailable undefined unique var view viewctrl viewid views viewsconfig viewselected viewtype virginia vm washingstone york"
     },
     {
       "section": "api",
@@ -320,39 +329,39 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "patternfly.wizard.directive:pfWizard",
+      "id": "patternfly.wizard.component:pfWizard",
       "shortName": "pfWizard",
       "type": "directive",
       "moduleName": "patternfly.wizard",
-      "shortDescription": "Directive for rendering a Wizard modal.  Each wizard dynamically creates the step navigation both in the header and the left-hand side based on nested steps.",
-      "keywords": "$emit $on $parent $rootscope $scope $timeout $uibmodal ac additional amet angular animation api back-callback backcallback backdrop backtitle based basic blank-slate-pf blank-slate-pf-icon blank-slate-pf-main-action blank-slate-pf-secondary-action boolean btn btn-default btn-lg btn-primary button buttons call called cancel canceldeploymentwizard canceled canceltitle changed class clicked close closewizard command complete configuration consistently content content-height contentheight controller creates current currentstep data default defaults define deploy deploycomplete deployinprogress deployment deploymentcomplete deploymentcontroller deployproviderready deployready deps description descriptive desired detail-page details details-extra details-general detailsgeneralcomplete detailsgeneralcontroller detailsreviewcontroller directive dismiss display displayed dolor dynamically eget embedded embedinpage example externally extra false final find finish finishedwizard footer form form-horizontal function general glyphicon glyphicon-ok-circle group hand header height hideindicators hides html indicate indicates indicators individual initializewizard instance ipsum isdefined isundefined js left left-hand length lg loading loading-secondary-information loadingsecondaryinformation loadingwizardtitle logical lorem modal modalinstance module moves navigation nested new-description new-ipsum new-lorem new-name next-callback next-enabled next-title nextbuttontitle nextcallback nexttitle ng-change ng-click ng-controller ng-if ng-include ng-model notify nunc ok-to-nav-away on-cancel on-finish on-show oncancel onfinish onshow open openwizardmodel operation pageshown parameters patternfly pf-form-group pf-label pf-wizard pf-wizard-review-page pf-wizard-step pf-wizard-substep pf-wizardstep pf-wizardsteps pf-wizardsubstep porta portions prev-enabled progress property ready reason removes rendering required result return returns review review-progress review-second-template review-summary review-template reviewtemplate script second secondary secondaryloadinformation set setting show-review show-review-details side sit size sociosqu spinner spinner-lg startdeploy static step step-id step-priority step-title stepid steps strict structure substeps successful summary summarycontroller supplied suspendisse switch tab templateurl text time title true type updatename updates ut var vivamus wisi wizard wizard-container wizard-data wizard-done wizard-pf-complete wizard-pf-contents wizard-pf-process wizard-pf-review-item wizard-pf-review-item-label wizard-pf-review-item-value wizard-pf-success-icon wizard-ready wizardcontroller wizarddata wizarddone wizarddonelistener wizardmodalcontroller wizardready wz-disabled"
+      "shortDescription": "Component for rendering a Wizard modal.  Each wizard dynamically creates the step navigation both in the header and the left-hand side based on nested steps.",
+      "keywords": "$ctrl $emit $on $parent $rootscope $scope $timeout $uibmodal ac additional amet angular animation api back-callback backcallback backdrop backtitle based basic blank-slate-pf blank-slate-pf-icon blank-slate-pf-main-action blank-slate-pf-secondary-action boolean btn btn-default btn-lg btn-primary button buttons call called cancel canceldeploymentwizard canceled canceltitle changed class clicked close closewizard command complete component configuration consistently content content-height contentheight controller creates current currentstep data default defaults define deploy deploycomplete deployinprogress deployment deploymentcomplete deploymentcontroller deployproviderready deployready deps description descriptive desired detail-page details details-extra details-general detailsgeneralcomplete detailsgeneralcontroller detailsreviewcontroller directive dismiss display displayed dolor dynamically eget embedded embedinpage example externally extra false final find finish finishedwizard footer form form-horizontal function general glyphicon glyphicon-ok-circle group hand header height hideindicators hides html indicate indicates indicators individual initializewizard instance ipsum isdefined isundefined js left left-hand length lg loading loading-secondary-information loadingsecondaryinformation loadingwizardtitle logical lorem modal modalinstance module moves navigation nested new-description new-ipsum new-lorem new-name next-callback next-enabled next-title nextbuttontitle nextcallback nexttitle ng-change ng-click ng-controller ng-if ng-include ng-model notify nunc ok-to-nav-away on-cancel on-finish on-show on-step-changed oncancel onfinish onshow onstepchanged open openwizardmodel operation pageshown passes patternfly pf-label pf-wizard-step pf-wizard-steps pf-wizard-substep porta portions prev-enabled progress property ready reason removes rendering required result return returns review review-progress review-second-template review-summary review-template reviewtemplate script second secondary secondaryloadinformation set setting show-review show-review-details side sit size sociosqu spinner spinner-lg startdeploy static step step-id step-priority step-title stepchanged stepid steps strict structure substeps successful summary summarycontroller supplied suspendisse switch tab templateurl text time title true type updatename updates ut var vivamus wisi wizard wizard-container wizard-data wizard-done wizard-pf-complete wizard-pf-contents wizard-pf-process wizard-pf-review-item wizard-pf-review-item-label wizard-pf-review-item-value wizard-pf-success-icon wizard-ready wizardcontroller wizarddata wizarddone wizarddonelistener wizardmodalcontroller wizardready wz-disabled"
     },
     {
       "section": "api",
-      "id": "patternfly.wizard.directive:pfWizardReviewPage",
+      "id": "patternfly.wizard.component:pfWizardReviewPage",
       "shortName": "pfWizardReviewPage",
       "type": "directive",
       "moduleName": "patternfly.wizard",
-      "shortDescription": "Directive for rendering a Wizard Review Page - should only be used within a wizard.",
-      "keywords": "api apply content data directive internal internally patternfly rendering review sets templates visible watched wizard wizarddata"
+      "shortDescription": "Component for rendering a Wizard Review Page - should only be used within a wizard.",
+      "keywords": "api apply component content data directive internal internally patternfly rendering review sets templates visible watched wizard wizarddata"
     },
     {
       "section": "api",
-      "id": "patternfly.wizard.directive:pfWizardStep",
+      "id": "patternfly.wizard.component:pfWizardStep",
       "shortName": "pfWizardStep",
       "type": "directive",
       "moduleName": "patternfly.wizard",
-      "shortDescription": "Directive for rendering a Wizard step.  Each step can stand alone or have substeps.  This directive can only be used as a child of pf-wizard.",
-      "keywords": "allowclicknav api button called child click data default description details directive directly disables display displayed enabled entire expanded function header identifier indicates indicators leave navigate nextenabled nexttooltip numbered numeric oktonavaway onshow order passed patternfly pf-wizard prevenabled prevtooltip priority reached relative rendering review reviewtemplate screen sequentially sets shared showreview showreviewdetails stand step stepid steppriority steps steptitle substeps template text title tooltip user viewed wizard wizarddata wzdisabled"
+      "shortDescription": "Component for rendering a Wizard step.  Each step can stand alone or have substeps.  This directive can only be used as a child of pf-wizard.",
+      "keywords": "allowclicknav api button called child click component data default description details directive directly disables display displayed enabled entire expanded function header identifier indicates indicators leave navigate nextenabled nexttooltip numbered numeric oktonavaway onshow order passed patternfly pf-wizard prevenabled prevtooltip priority reached relative rendering review reviewtemplate screen sequentially sets shared showreview showreviewdetails stand step stepid steppriority steps steptitle substeps template text title tooltip user viewed wizard wizarddata wzdisabled"
     },
     {
       "section": "api",
-      "id": "patternfly.wizard.directive:pfWizardSubstep",
+      "id": "patternfly.wizard.component:pfWizardSubstep",
       "shortName": "pfWizardSubstep",
       "type": "directive",
       "moduleName": "patternfly.wizard",
-      "shortDescription": "Directive for rendering a Wizard substep.  Each substep must be a child of a pf-wizardstep in a pf-wizard directive.",
-      "keywords": "allowclicknav api button called child click data default description details directive directly disables displayed enabled entire expanded function header identifier indicators leave navigate nextenabled numbered numeric oktonavaway onshow order passed patternfly pf-wizard pf-wizardstep prevenabled priority reached relative rendering review reviewtemplate screen sequentially sets shared showreviewdetails step stepid steppriority steps steptitle substep template text title user viewed wizard wizarddata wzdisabled"
+      "shortDescription": "Component for rendering a Wizard substep.  Each substep must be a child of a pf-wizardstep in a pf-wizard directive.",
+      "keywords": "allowclicknav api button called child click component data default description details directive directly disables displayed enabled entire expanded function header identifier indicators leave navigate nextenabled numbered numeric oktonavaway onshow order passed patternfly pf-wizard pf-wizardstep prevenabled priority reached relative rendering review reviewtemplate screen sequentially sets shared showreviewdetails step stepid steppriority steps steptitle substep template text title user viewed wizard wizarddata wzdisabled"
     }
   ],
   "apis": {

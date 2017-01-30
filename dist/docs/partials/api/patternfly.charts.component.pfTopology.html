@@ -1,10 +1,10 @@
-<a href="https://github.com/patternfly/angular-patternfly/edit/master/src/charts/topology/examples/topology-view.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/patternfly/angular-patternfly/blob/deb7437/src/charts/topology/examples/topology-view.js#L255" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">pfTopology</code>
+<a href="https://github.com/patternfly/angular-patternfly/edit/master/src/charts/topology/examples/topology-view.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/patternfly/angular-patternfly/blob/768afa8/src/charts/topology/examples/topology-view.js#L310" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">pfTopology</code>
 <div><span class="hint">directive in module <code ng:non-bindable="">patternfly.charts</code>
 </span>
 </div>
 </h1>
 <div><h2 id="description">Description</h2>
-<div class="description"><div class="patternfly-charts-component-page patternfly-charts-component-pftopology-page"><p>Component for rendering a topology chart.  Individual nodes and relationships can be represented with this view.</p>
+<div class="description"><div class="patternfly-charts-component-page patternfly-charts-component-pftopology-page"><p>Component for rendering a topology chart.  Individual nodes and relationships can be represented with this view.  CSS is especially important for rendering the noes and lines.  The example inline contains specific examples that can be used to change the icon size and the line type of the relationships.</p>
 <p>In addition; searching, filtering and label visibility is also supported.<br/></p>
 </div></div>
 <h2 id="usage">Usage</h2>
@@ -44,7 +44,7 @@
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="patternfly-charts-component-page patternfly-charts-component-pftopology-page"><h4 id="example_source">Source</h4>
-<div source-edit="patternfly.charts" source-edit-deps="angular.js script.js" source-edit-html="index.html-17" source-edit-css="" source-edit-js="script.js-18" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div source-edit="patternfly.charts" source-edit-deps="angular.js script.js" source-edit-html="index.html-17" source-edit-css="topology.css" source-edit-js="script.js-18" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
 <pre class="prettyprint linenums" ng-set-text="index.html-17" ng-html-wrap-loaded="patternfly.charts angular.js script.js"></pre>
 <script type="text/ng-template" id="index.html-17">
@@ -66,6 +66,63 @@
 </div>
 </div>
 </script>
+</div>
+<div class="tab-pane" title="topology.css">
+<pre class="prettyprint linenums" ng-set-text="topology.css"></pre>
+<style type="text/css" id="topology.css">
+
+.pf-topology-svg g.Pod text {
+   font-family: FontAwesome;
+   font-size: 16px;
+   fill: #1186C1;
+ }
+
+  .pf-topology-svg g.Node text {
+   fill: #636363;
+ }
+
+  .pf-topology-svg g.Service text {
+   fill: #ff7f0e;
+ }
+
+  .pf-topology-svg g.ReplicationController text {
+   fill: #9467bd;
+   font-size: 20px;
+ }
+
+  .pf-topology-svg line.ReplicationControllerPod {
+   stroke-linecap: round;
+   stroke-dasharray: 5, 2;
+ }
+
+
+ .pf-topology-svg line.ContainerServiceContainerGroup, .pf-topology-svg line.ContainerReplicatorContainerGroup, .pf-topology-svg line.ContainerServiceContainerRoute,
+  .pf-topology-svg line.ContainerGroupContainerService, .pf-topology-svg line.ContainerGroupContainerReplicator {
+   stroke-linecap: round;
+   stroke-dasharray: 5.5;
+ }
+
+
+.pf-topology-svg g.Container text.glyph {
+   font-size: 18px;
+ }
+
+  .pf-topology-svg g.ContainerGroup text.glyph {
+   font-size: 18px;
+ }
+
+  .pf-topology-svg g.Vm text.glyph, .pf-topology-svg g.Host text.glyph {
+   fill: #636363;
+ }
+
+  .pf-topology-svg g.ContainerNode text.glyph {
+   font-size: 18px;
+ }
+
+  .pf-topology-svg g.ContainerManager text.glyph {
+   font-size: 18px;
+ }
+</style>
 </div>
 <div class="tab-pane" title="script.js">
 <pre class="prettyprint linenums" ng-set-text="script.js-18"></pre>

@@ -1,4 +1,4 @@
-<a href="https://github.com/patternfly/angular-patternfly/edit/master/src/charts/topology/examples/topology-view.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/patternfly/angular-patternfly/blob/768afa8/src/charts/topology/examples/topology-view.js#L310" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">pfTopology</code>
+<a href="https://github.com/patternfly/angular-patternfly/edit/master/src/charts/topology/examples/topology-view.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/patternfly/angular-patternfly/blob/f8b2bea/src/charts/topology/examples/topology-view.js#L315" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">pfTopology</code>
 <div><span class="hint">directive in module <code ng:non-bindable="">patternfly.charts</code>
 </span>
 </div>
@@ -26,7 +26,7 @@
 <ul style='list-style-type: none'>
 <li>.name    - name of the item the node represents
 <li>.status  - optional status of the node (can be used to differentiate the circle color)
-<li>.kind    - the kind of node
+<li>.kind    - the kind of node - this is a general key that needs to be unique for grouping the nodes  Filtering and styles use this value as well to correctly select the nodes.
 </ul></div></td></tr><tr><td>relations</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="patternfly-charts-component-page patternfly-charts-component-pftopology-page"><p>the object containing all of the node relationships:<br/></p>
 <ul style='list-style-type: none'>
 <li>.source   - the key of the source node
@@ -108,7 +108,7 @@
  }
 
   .pf-topology-svg g.ContainerGroup text.glyph {
-   font-size: 18px;
+   font-size: 28px;
  }
 
   .pf-topology-svg g.Vm text.glyph, .pf-topology-svg g.Host text.glyph {
@@ -162,7 +162,7 @@ angular.module( 'patternfly.charts' ).controller( 'TopologyCtrl', function( $sco
          "name": "registry",
          "kind": "Container",
          "miq_id": 10000000000235,
-         "status": "Running",
+         "status": "Error",
          "display_kind": "Container"
        },
        "ContainerReplicator10r56": {
@@ -297,6 +297,11 @@ angular.module( 'patternfly.charts' ).controller( 'TopologyCtrl', function( $sco
    // Individual values can also be set for specific icons
    $scope.nodes.ContainerService.textY = 9;
    $scope.nodes.ContainerService.textX = -1;
+
+   $scope.nodes.ContainerGroup.height = 30;
+   $scope.nodes.ContainerGroup.width = 30;
+   $scope.nodes.ContainerGroup.radius = 28;
+   $scope.nodes.ContainerGroup.textY = 8;
 
    $scope.itemSelected = function (item) {
      var text = "";
